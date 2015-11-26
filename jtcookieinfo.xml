@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5"
+           type="plugin"
+           group="system"
+           method="upgrade">
+	<name>PLG_SYSTEM_JTCOOKIEINFO</name>
+	<author>Guido De Gobbis</author>
+	<creationDate>Nov. 2015</creationDate>
+	<copyright>(c) JoomTools.de. All rights reserved.</copyright>
+	<license>GNU/GPLv3, see http://www.gnu.org/licenses/gpl-3.0.de.html</license>
+	<authorEmail>guido.de.gobbis@jootmools.de</authorEmail>
+	<version>1.0.0</version>
+	<description>PLG_SYSTEM_JTCOOKIEINFO_DESC</description>
+
+	<files>
+		<filename plugin="jtcookieinfo">jtcookieinfo.php</filename>
+		<folder>assets</folder>
+		<folder>language</folder>
+		<folder>tmpl</folder>
+	</files>
+
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="jtci_theme"
+				       type="list"
+				       class="chzn-single"
+				       default="default"
+				       label="PLG_SYSTEM_JTCOOKIEINFO_THEME_LABEL"
+				       description="PLG_SYSTEM_JTCOOKIEINFO_THEME_DESC">
+					<option value="default">JDEFAULT</option>
+					<option value="bs3">Bootstrap 3</option>
+					<option value="uikit">UIkit</option>
+				</field>
+				<field name="jtci_set_title"
+				       type="radio"
+				       class="btn-group"
+				       default="0"
+				       label="PLG_SYSTEM_JTCOOKIEINFO_SET_TITLE_LABEL"
+				       description="PLG_SYSTEM_JTCOOKIEINFO_SET_TITLE_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="jtci_title"
+				       type="text"
+				       showon="jtci_set_title:1"
+				       default=""
+				       label="PLG_SYSTEM_JTCOOKIEINFO_TITLE_LABEL"
+				       description="PLG_SYSTEM_JTCOOKIEINFO_TITLE_DESC"/>
+				<field name="jtci_legal_url"
+				       type="menuitem"
+				       class="chzn-color-state"
+				       published="1"
+				       default="0"
+				       label="PLG_SYSTEM_JTCOOKIEINFO_LEGAL_URL_LABEL"
+				       description="PLG_SYSTEM_JTCOOKIEINFO_LEGAL_URL_DESC">
+					<option	value="0">JOFF</option>
+				</field>
+				<field name="jtci_legal_label"
+				       type="text"
+				       default=""
+				       label="PLG_SYSTEM_JTCOOKIEINFO_LEGAL_LABEL_LABEL"
+				       description="PLG_SYSTEM_JTCOOKIEINFO_LEGAL_LABEL_DESC"/>
+				<field name="jtci_legal_title"
+				       type="text"
+				       default=""
+				       label="PLG_SYSTEM_JTCOOKIEINFO_LEGAL_TITLE_LABEL"
+				       description="PLG_SYSTEM_JTCOOKIEINFO_LEGAL_TITLE_DESC"/>
+				<field name="jtci_message_type"
+				       type="list"
+				       class="chzn-single"
+				       default="default"
+				       label="PLG_SYSTEM_JTCOOKIEINFO_MESSAGE_TYPE_LABEL"
+				       description="PLG_SYSTEM_JTCOOKIEINFO_MESSAGE_TYPE_DESC">
+					<option value="info">Info</option>
+					<option value="success">Success</option>
+					<option value="warning">Warning</option>
+					<option value="error">Error</option>
+				</field>
+				<field name="jtci_message"
+				       type="editor"
+				       height="20"
+				       buttons="false"
+				       filter="safehtml"
+				       label="PLG_SYSTEM_JTCOOKIEINFO_MESSAGE_LABEL"
+				       description="PLG_SYSTEM_JTCOOKIEINFO_MESSAGE_DESC"/>
+			</fieldset>
+		</fields>
+	</config>
+	<updateservers>
+		<server type="collection"
+		        priority="1"
+		        name="JT - Updateserver">http://www.joomtools.de/updates/updatelist.xml
+		</server>
+	</updateservers>
+</extension>
