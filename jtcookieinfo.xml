@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="2.5"
-           type="plugin"
-           group="system"
-           method="upgrade">
+<extension version="2.5" type="plugin" group="system" method="upgrade">
 	<name>PLG_SYSTEM_JTCOOKIEINFO</name>
 	<author>Guido De Gobbis</author>
 	<creationDate>Nov. 2015</creationDate>
@@ -28,9 +25,20 @@
 				       default="default"
 				       label="PLG_SYSTEM_JTCOOKIEINFO_THEME_LABEL"
 				       description="PLG_SYSTEM_JTCOOKIEINFO_THEME_DESC">
-					<option value="default">JDEFAULT</option>
+					<option value="default">PLG_SYSTEM_JTCOOKIEINFO_THEME_OPTION_DEFAULT</option>
 					<option value="bs3">Bootstrap 3</option>
 					<option value="uikit">UIkit</option>
+				</field>
+				<field name="jtci_message_type"
+				       type="list"
+				       class="chzn-single"
+				       default="default"
+				       label="PLG_SYSTEM_JTCOOKIEINFO_MESSAGE_TYPE_LABEL"
+				       description="PLG_SYSTEM_JTCOOKIEINFO_MESSAGE_TYPE_DESC">
+					<option value="info">PLG_SYSTEM_JTCOOKIEINFO_MESSAGE_TYPE_OPTION_INFO</option>
+					<option value="success">PLG_SYSTEM_JTCOOKIEINFO_MESSAGE_TYPE_OPTION_SUCCESS</option>
+					<option value="warning">PLG_SYSTEM_JTCOOKIEINFO_MESSAGE_TYPE_OPTION_WARNING</option>
+					<option value="error">PLG_SYSTEM_JTCOOKIEINFO_MESSAGE_TYPE_OPTION_ERROR</option>
 				</field>
 				<field name="jtci_set_title"
 				       type="radio"
@@ -47,6 +55,9 @@
 				       default=""
 				       label="PLG_SYSTEM_JTCOOKIEINFO_TITLE_LABEL"
 				       description="PLG_SYSTEM_JTCOOKIEINFO_TITLE_DESC"/>
+				<field type="spacer"
+				       name="jtcilegal"
+				       label="PLG_SYSTEM_JTCOOKIEINFO_LEGAL_SPACER"/>
 				<field name="jtci_legal_url"
 				       type="menuitem"
 				       class="chzn-color-state"
@@ -66,20 +77,10 @@
 				       default=""
 				       label="PLG_SYSTEM_JTCOOKIEINFO_LEGAL_TITLE_LABEL"
 				       description="PLG_SYSTEM_JTCOOKIEINFO_LEGAL_TITLE_DESC"/>
-				<field name="jtci_message_type"
-				       type="list"
-				       class="chzn-single"
-				       default="default"
-				       label="PLG_SYSTEM_JTCOOKIEINFO_MESSAGE_TYPE_LABEL"
-				       description="PLG_SYSTEM_JTCOOKIEINFO_MESSAGE_TYPE_DESC">
-					<option value="info">Info</option>
-					<option value="success">Success</option>
-					<option value="warning">Warning</option>
-					<option value="error">Error</option>
-				</field>
+			</fieldset>
+			<fieldset name="advanced">
 				<field name="jtci_message"
 				       type="editor"
-				       height="20"
 				       buttons="false"
 				       filter="safehtml"
 				       label="PLG_SYSTEM_JTCOOKIEINFO_MESSAGE_LABEL"

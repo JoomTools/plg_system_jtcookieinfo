@@ -4,23 +4,37 @@
  *
  * Displays a pop-up window with information about the use of cookies.
  *
- * @package    Joomla.Plugin
- * @subpackage Content.jtcookieinfo
- * @author     Guido De Gobbis <guido.de.gobbis@joomtools.de>
- * @copyright  2015 JoomTools
- * @license    GNU/GPLv3 <http://www.gnu.org/licenses/gpl-3.0.de.html>
- * @link       http://joomtools.de
+ * @package     Joomla.Plugin
+ * @subpackage  System.jtcookieinfo
+ * @author      Guido De Gobbis <guido.de.gobbis@joomtools.de>
+ * @copyright   2015 JoomTools
+ * @license     GNU/GPLv3 <http://www.gnu.org/licenses/gpl-3.0.de.html>
+ * @link        http://joomtools.de
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.plugin.plugin');
 
-class plgSystemJtcookieinfo extends JPlugin
+/**
+ * Class PlgSystemJtcookieinfo
+ *
+ * Displays a pop-up window with information about the use of cookies.
+ *
+ * @package     Joomla.Plugin
+ * @subpackage  System.jtcookieinfo
+ * @since       2.5
+ */
+class PlgSystemJtcookieinfo extends JPlugin
 {
 	protected $jtci = null;
 
+	/**
+	 * onBeforeRender
+	 *
+	 * @return  void
+	 */
 	public function onBeforeRender()
 	{
 		$app = JFactory::getApplication();
@@ -50,6 +64,7 @@ class plgSystemJtcookieinfo extends JPlugin
 		if ($cookie === false)
 		{
 			$document = JFactory::getDocument();
+
 			if (JDEBUG)
 			{
 				$document->addScript(JUri::base(true) . '/plugins/system/jtcookieinfo/assets/jquery.cookie.js');
@@ -62,9 +77,13 @@ class plgSystemJtcookieinfo extends JPlugin
 			$document->addScriptDeclaration($script);
 			$document->addStyleSheet(JUri::base(true) . '/plugins/system/jtcookieinfo/assets/jtcookieinfo.css');
 		}
-
 	}
 
+	/**
+	 * onAfterRender
+	 *
+	 * @return  void
+	 */
 	public function onAfterRender()
 	{
 		$app = JFactory::getApplication();
@@ -120,9 +139,16 @@ class plgSystemJtcookieinfo extends JPlugin
 			$body = str_replace('</body>', $strOutputHTML . '</body>', $body);
 			$app->setBody($body);
 		}
-
 	}
 
+	/**
+	 * getTmplPath
+	 *
+	 * @param   string  $filename  Name of output templatefile without type
+	 * @param   string  $type      Type of templatefile
+	 *
+	 * @return string Path to output templatefile
+	 */
 	protected function getTmplPath($filename, $type = 'php')
 	{
 		$template = JFactory::getApplication()->getTemplate();
@@ -147,6 +173,13 @@ class plgSystemJtcookieinfo extends JPlugin
 		}
 	}
 
+	/**
+	 * getTmpl
+	 *
+	 * @param   string  $theme  Name of output templatefile without type
+	 *
+	 * @return string Templateoutput from selected framework
+	 */
 	protected function getTmpl($theme)
 	{
 		$path = $this->getTmplPath($theme);
@@ -155,7 +188,7 @@ class plgSystemJtcookieinfo extends JPlugin
 		ob_start();
 
 		// Include the requested template filename in the local scope
-		include($path);
+		include "$path";
 
 		// Done with the requested template; get the buffer and
 		// clear it.
@@ -164,7 +197,4 @@ class plgSystemJtcookieinfo extends JPlugin
 
 		return $return;
 	}
-
 }
-
-
