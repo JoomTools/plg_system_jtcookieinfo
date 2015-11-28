@@ -13,7 +13,7 @@
  */
 
 // No direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 
@@ -28,7 +28,7 @@ jimport('joomla.plugin.plugin');
  */
 class PlgSystemJtcookieinfo extends JPlugin
 {
-	protected $jtci = null;
+	protected $jtci;
 
 	/**
 	 * onBeforeRender
@@ -39,20 +39,20 @@ class PlgSystemJtcookieinfo extends JPlugin
 	{
 		$app = JFactory::getApplication();
 
-		if (!$app->isSite())
+		if ($app->isAdmin())
 		{
 			return;
 		}
 
-		$cookie = $app->input->cookie->get('jtci_accept', false, 'boolean');
+		$cookie   = $app->input->cookie->getBool('jtci_accept', false);
+		$position = ($this->params->get('jtci_set_position', 'top') == 'bottom') ?
+			'.css({top:"inherit",bottom:0})' : '';
 
 		$script = '
 			jQuery(function ($) {
 				$(".jtci").hide();
 				if ($.cookie("jtci_accept") == undefined) {
-					$(".jtci").css({
-						' . $this->params->get('jtci_position', 'top') . ': 0
-					}).delay(800).show("slow");
+					$(".jtci")' . $position . '.delay(800).show("slow");
 				}
 				$(".jtci-close").on("click", function () {
 					$.cookie("jtci_accept", true, {expires: ' . (int) $this->params->get('jtci_expire', '365') . '});
@@ -65,17 +65,20 @@ class PlgSystemJtcookieinfo extends JPlugin
 		{
 			$document = JFactory::getDocument();
 
-			if (JDEBUG)
+			if (version_compare(JVERSION, '3', 'lt'))
 			{
-				$document->addScript(JUri::base(true) . '/plugins/system/jtcookieinfo/assets/jquery.cookie.js');
-			}
-			else
-			{
-				$document->addScript(JUri::base(true) . '/plugins/system/jtcookieinfo/assets/jquery.cookie.min.js');
+				if (JFactory::getApplication()->get('jquery') !== true)
+				{
+					$document->addScript("//code.jquery.com/jquery-latest.min.js");
+					JFactory::getApplication()->set('jquery', true);
+				}
 			}
 
+			$min = (JDEBUG) ? '' : '.min';
+
+			JHtml::_('script', 'plugins/system/jtcookieinfo/assets/jquery.cookie' . $min . '.js');
+			JHtml::_('stylesheet', 'plugins/system/jtcookieinfo/assets/jtcookieinfo' . $min . '.css');
 			$document->addScriptDeclaration($script);
-			$document->addStyleSheet(JUri::base(true) . '/plugins/system/jtcookieinfo/assets/jtcookieinfo.css');
 		}
 	}
 
@@ -88,7 +91,7 @@ class PlgSystemJtcookieinfo extends JPlugin
 	{
 		$app = JFactory::getApplication();
 
-		if (!$app->isSite())
+		if ($app->isAdmin())
 		{
 			return;
 		}
@@ -97,35 +100,32 @@ class PlgSystemJtcookieinfo extends JPlugin
 
 		$jtci        = new stdClass;
 		$messageType = array(
-			'default' => array(
-				'info'    => 'info',
-				'warning' => 'warning',
-				'success' => 'success',
-				'error'   => 'error'
+			'bs3'   => array(
+				'error' => 'danger'
 			),
-			'bs3'     => array(
-				'info'    => 'info',
-				'warning' => 'warning',
-				'success' => 'success',
-				'error'   => 'danger'
-			),
-			'uikit'   => array(
-				'info'    => '',
-				'warning' => 'warning',
-				'success' => 'success',
-				'error'   => 'danger'
+			'uikit' => array(
+				'info'  => '',
+				'error' => 'danger'
 			),
 		);
 
-		$jtci->theme       = $this->params->get('jtci_theme', 'default');
-		$jtci->setTitle    = $this->params->get('jtci_set_title', 1);
-		$jtci->title       = $this->params->get('jtci_title', JText::_('PLG_SYSTEM_JTCOOKIEINFO_TITLE'));
-		$jtci->messageType = $messageType[$jtci->theme][$this->params->get('jtci_message_type', 'info')];
-		$jtci->message     = $this->params->get('jtci_message', JText::_('PLG_SYSTEM_JTCOOKIEINFO_MESSAGE'));
-		$jtci->closeTitle  = $this->params->get('jtci_close_title', JText::_('PLG_SYSTEM_JTCOOKIEINFO_CLOSE_TITLE'));
-		$jtci->legalURL    = $this->params->get('jtci_legal_url', '');
-		$jtci->legalLabel  = $this->params->get('jtci_legal_label', JText::_('PLG_SYSTEM_JTCOOKIEINFO_LEGAL_LABEL'));
-		$jtci->legalTitle  = $this->params->get('jtci_legal_title', JText::_('PLG_SYSTEM_JTCOOKIEINFO_LEGAL_TITLE'));
+		$jtci->theme      = $this->params->get('jtci_theme', 'default');
+		$jtci->setTitle   = $this->params->get('jtci_set_title', 1);
+		$jtci->title      = $this->params->get('jtci_title', JText::_('PLG_SYSTEM_JTCOOKIEINFO_TITLE'));
+		$jtci->message    = $this->params->get('jtci_message', JText::_('PLG_SYSTEM_JTCOOKIEINFO_MESSAGE'));
+		$jtci->closeTitle = $this->params->get('jtci_close_title', JText::_('PLG_SYSTEM_JTCOOKIEINFO_CLOSE_TITLE'));
+		$jtci->legalURL   = $this->params->get('jtci_legal_url', '');
+		$jtci->legalLabel = $this->params->get('jtci_legal_label', JText::_('PLG_SYSTEM_JTCOOKIEINFO_LEGAL_LABEL'));
+		$jtci->legalTitle = $this->params->get('jtci_legal_title', JText::_('PLG_SYSTEM_JTCOOKIEINFO_LEGAL_TITLE'));
+
+		if (isset($messageType[$jtci->theme][$this->params->get('jtci_message_type', 'dark')]))
+		{
+			$jtci->messageType = $messageType[$jtci->theme][$this->params->get('jtci_message_type', 'dark')];
+		}
+		else
+		{
+			$jtci->messageType = $this->params->get('jtci_message_type', 'dark');
+		}
 
 		$this->jtci = $jtci;
 
@@ -135,10 +135,44 @@ class PlgSystemJtcookieinfo extends JPlugin
 
 		if ($cookie === false)
 		{
-			$body = $app->getBody();
-			$body = str_replace('</body>', $strOutputHTML . '</body>', $body);
-			$app->setBody($body);
+			if (version_compare(JVERSION, '3', 'lt'))
+			{
+				$body = JResponse::getBody();
+				$body = str_replace('</body>', $strOutputHTML . '</body>', $body);
+				JResponse::setBody($body);
+			}
+			else
+			{
+				$body = $app->getBody();
+				$body = str_replace('</body>', $strOutputHTML . '</body>', $body);
+				$app->setBody($body);
+			}
 		}
+	}
+
+	/**
+	 * getTmpl
+	 *
+	 * @param   string  $theme  Name of output templatefile without type
+	 *
+	 * @return string Templateoutput from selected framework
+	 */
+	protected function getTmpl($theme)
+	{
+		$path = $this->getTmplPath($theme);
+
+		// Start capturing output into a buffer
+		ob_start();
+
+		// Include the requested template filename in the local scope
+		include "$path";
+
+		// Done with the requested template; get the buffer and
+		// clear it.
+		$return = ob_get_contents();
+		ob_end_clean();
+
+		return $return;
 	}
 
 	/**
@@ -171,30 +205,5 @@ class PlgSystemJtcookieinfo extends JPlugin
 				return $dAbsPath;
 				break;
 		}
-	}
-
-	/**
-	 * getTmpl
-	 *
-	 * @param   string  $theme  Name of output templatefile without type
-	 *
-	 * @return string Templateoutput from selected framework
-	 */
-	protected function getTmpl($theme)
-	{
-		$path = $this->getTmplPath($theme);
-
-		// Start capturing output into a buffer
-		ob_start();
-
-		// Include the requested template filename in the local scope
-		include "$path";
-
-		// Done with the requested template; get the buffer and
-		// clear it.
-		$return = ob_get_contents();
-		ob_end_clean();
-
-		return $return;
 	}
 }

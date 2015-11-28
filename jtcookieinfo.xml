@@ -6,7 +6,7 @@
 	<copyright>(c) JoomTools.de. All rights reserved.</copyright>
 	<license>GNU/GPLv3, see http://www.gnu.org/licenses/gpl-3.0.de.html</license>
 	<authorEmail>guido.de.gobbis@jootmools.de</authorEmail>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<description>PLG_SYSTEM_JTCOOKIEINFO_DESC</description>
 
 	<files>
@@ -26,19 +26,31 @@
 				       label="PLG_SYSTEM_JTCOOKIEINFO_THEME_LABEL"
 				       description="PLG_SYSTEM_JTCOOKIEINFO_THEME_DESC">
 					<option value="default">PLG_SYSTEM_JTCOOKIEINFO_THEME_OPTION_DEFAULT</option>
+					<option value="default_j25">PLG_SYSTEM_JTCOOKIEINFO_THEME_OPTION_DEFAULT_J25</option>
 					<option value="bs3">Bootstrap 3</option>
 					<option value="uikit">UIkit</option>
 				</field>
 				<field name="jtci_message_type"
 				       type="list"
 				       class="chzn-single"
-				       default="default"
+				       default="dark"
 				       label="PLG_SYSTEM_JTCOOKIEINFO_MESSAGE_TYPE_LABEL"
 				       description="PLG_SYSTEM_JTCOOKIEINFO_MESSAGE_TYPE_DESC">
+					<option value="dark">PLG_SYSTEM_JTCOOKIEINFO_MESSAGE_TYPE_OPTION_DARK</option>
+					<option value="bright">PLG_SYSTEM_JTCOOKIEINFO_MESSAGE_TYPE_OPTION_BRIGHT</option>
 					<option value="info">PLG_SYSTEM_JTCOOKIEINFO_MESSAGE_TYPE_OPTION_INFO</option>
 					<option value="success">PLG_SYSTEM_JTCOOKIEINFO_MESSAGE_TYPE_OPTION_SUCCESS</option>
 					<option value="warning">PLG_SYSTEM_JTCOOKIEINFO_MESSAGE_TYPE_OPTION_WARNING</option>
 					<option value="error">PLG_SYSTEM_JTCOOKIEINFO_MESSAGE_TYPE_OPTION_ERROR</option>
+				</field>
+				<field name="jtci_set_position"
+				       type="radio"
+				       class="btn-group"
+				       default="top"
+				       label="PLG_SYSTEM_JTCOOKIEINFO_SET_POSITION_LABEL"
+				       description="PLG_SYSTEM_JTCOOKIEINFO_SET_POSITION_DESC">
+					<option value="top">Top</option>
+					<option value="bottom">Bottom</option>
 				</field>
 				<field name="jtci_set_title"
 				       type="radio"
