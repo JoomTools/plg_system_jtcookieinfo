@@ -55,7 +55,7 @@ class PlgSystemJtcookieinfo extends JPlugin
 					$(".jtci")' . $position . '.delay(800).show("slow");
 				}
 				$(".jtci-close").on("click", function () {
-					$.cookie("jtci_accept", true, {expires: ' . (int) $this->params->get('jtci_expire', '365') . '});
+					$.cookie("jtci_accept", true, {expires: ' . (int) $this->params->get('jtci_expire', '365') . ', path: "' . JURI::root(true) . '"});
 					$(".jtci").hide("slow");
 				});
 			});
