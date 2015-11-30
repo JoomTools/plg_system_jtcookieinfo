@@ -3,6 +3,7 @@
 	top      : 0;
 	left     : 0;
 	width    : 100%;
+	z-index  : 99;
 }
 
 .jtci > div {
@@ -54,24 +55,28 @@
 }
 
 .jtci.j25 .alert-info,
+.jtci.j25 .alert-info .jtci-heading,
 .jtci.j25 .alert-info a {
 	background-color : #d9edf7;
 	color            : #31708f;
 }
 
 .jtci.j25 .alert-success,
+.jtci.j25 .alert-success .jtci-heading,
 .jtci.j25 .alert-success a {
 	background-color : #dff0d8;
 	color            : #3c763d;
 }
 
 .jtci.j25 .alert-warning,
+.jtci.j25 .alert-warning .jtci-heading,
 .jtci.j25 .alert-warning a {
 	background-color : #fcf8e3;
 	color            : #8a6d3b;
 }
 
 .jtci.j25 .alert-error,
+.jtci.j25 .alert-error .jtci-heading,
 .jtci.j25 .alert-error a {
 	background-color : #f2dede;
 	color            : #a94442;
