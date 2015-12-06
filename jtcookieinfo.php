@@ -72,6 +72,7 @@ class PlgSystemJtcookieinfo extends JPlugin
 					$document->addScript("//code.jquery.com/jquery-latest.min.js");
 					JFactory::getApplication()->set('jquery', true);
 				}
+
 				$script = 'jQuery.noConflict();' . $script;
 			}
 
