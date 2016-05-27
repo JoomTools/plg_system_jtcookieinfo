@@ -129,6 +129,32 @@ class PlgSystemJtcookieinfo extends JPlugin
 			$jtci->messageType = $this->params->get('jtci_message_type', 'dark');
 		}
 
+
+		$legalItemLanguage = JFactory::getApplication()->getMenu()->getItem($jtci->legalURL)->language;
+		$activeLanguage    = JFactory::getLanguage()->getTag();
+
+		if ($legalItemLanguage != $activeLanguage && $legalItemLanguage != '*')
+		{
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true);
+
+			$query->select('a.id')
+				->from('#__associations AS a')
+				->where('a.id != ' . $db->q($jtci->legalURL));
+
+			$query->select('k.key')
+				->join('LEFT', '#__associations AS k ON k.id = ' .  $db->q($jtci->legalURL) . ' AND a.key = k.key')
+				->where('a.context="com_menus.item"');
+
+			$query->select('m.id')
+				->join('LEFT', '#__menu AS m ON m.id = a.id AND m.published=1 AND m.language = ' .  $db->q($activeLanguage));
+
+			$legalURL = $db->setQuery($query)->loadResult();
+			$jtci->legalURL = $legalURL;
+		}
+
+		$jtci->activeLanguage = JFactory::getLanguage()->getTag();
+
 		$this->jtci = $jtci;
 
 		$strOutputHTML = $this->getTmpl($jtci->theme);
@@ -155,7 +181,7 @@ class PlgSystemJtcookieinfo extends JPlugin
 	/**
 	 * getTmpl
 	 *
-	 * @param   string  $theme  Name of output templatefile without type
+	 * @param   string $theme Name of output templatefile without type
 	 *
 	 * @return string Templateoutput from selected framework
 	 */
@@ -180,8 +206,8 @@ class PlgSystemJtcookieinfo extends JPlugin
 	/**
 	 * getTmplPath
 	 *
-	 * @param   string  $filename  Name of output templatefile without type
-	 * @param   string  $type      Type of templatefile
+	 * @param   string $filename Name of output templatefile without type
+	 * @param   string $type     Type of templatefile
 	 *
 	 * @return string Path to output templatefile
 	 */
