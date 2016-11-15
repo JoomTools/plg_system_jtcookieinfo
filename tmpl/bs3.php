@@ -28,7 +28,7 @@ $jtci = $this->jtci; ?>
 		<div class="jtci-message text-<?php echo $jtci->messageType; ?>">
 			<?php echo $jtci->message; ?>
 			<?php if ($jtci->legalURL) : ?>
-				<a class="jtci-legal alert-link" title="<?php echo $jtci->legalTitle; ?>" href="<?php echo $jtci->legalURL; ?>">
+				<a class="jtci-legal alert-link" title="<?php echo $jtci->legalTitle; ?>" href="<?php echo JRoute::_('index.php?Itemid=' . (int) $jtci->legalURL); ?>">
 					<?php echo $jtci->legalLabel; ?>
 				</a>
 			<?php endif; ?>

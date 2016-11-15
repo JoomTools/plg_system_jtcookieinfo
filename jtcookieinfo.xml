@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="2.5" type="plugin" group="system" method="upgrade">
+<extension version="3.4" type="plugin" group="system" method="upgrade">
 	<name>PLG_SYSTEM_JTCOOKIEINFO</name>
 	<author>Guido De Gobbis</author>
 	<creationDate>Nov. 2015</creationDate>
 	<copyright>(c) JoomTools.de. All rights reserved.</copyright>
 	<license>GNU/GPLv3, see http://www.gnu.org/licenses/gpl-3.0.de.html</license>
 	<authorEmail>guido.de.gobbis@jootmools.de</authorEmail>
-	<version>1.0.5</version>
+	<version>1.0.6</version>
 	<description>PLG_SYSTEM_JTCOOKIEINFO_DESC</description>
 
 	<files>
@@ -15,6 +15,13 @@
 		<folder>language</folder>
 		<folder>tmpl</folder>
 	</files>
+
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.plg_system_jtcookieinfo.sys.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_system_jtcookieinfo.ini</language>
+		<language tag="de-DE">de-DE/de-DE.plg_system_jtcookieinfo.sys.ini</language>
+		<language tag="de-DE">de-DE/de-DE.plg_system_jtcookieinfo.ini</language>
+	</languages>
 
 	<config>
 		<fields name="params">
@@ -101,6 +108,6 @@
 		</fields>
 	</config>
 	<updateservers>
-		<server type="collection" priority="1" name="JT - Updateserver">http://updateserver.joomtools.de/extensions.xml</server>
+		<server type="extension" name="JT-Cookieinfo">https://raw.githubusercontent.com/JoomTools/updateserver/master/jtcookieinfo.xml</server>
 	</updateservers>
 </extension>
