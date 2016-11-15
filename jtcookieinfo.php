@@ -22,9 +22,9 @@ jimport('joomla.plugin.plugin');
  *
  * Displays a pop-up window with information about the use of cookies.
  *
- * @package     Joomla.Plugin
- * @subpackage  System.jtcookieinfo
- * @since       2.5
+ * @package      Joomla.Plugin
+ * @subpackage   System.jtcookieinfo
+ * @since        2.5
  */
 class PlgSystemJtcookieinfo extends JPlugin
 {
@@ -33,7 +33,7 @@ class PlgSystemJtcookieinfo extends JPlugin
 	/**
 	 * onBeforeRender
 	 *
-	 * @return  void
+	 * @return   void
 	 */
 	public function onBeforeRender()
 	{
@@ -87,7 +87,7 @@ class PlgSystemJtcookieinfo extends JPlugin
 	/**
 	 * onAfterRender
 	 *
-	 * @return  void
+	 * @return   void
 	 */
 	public function onAfterRender()
 	{
@@ -181,9 +181,9 @@ class PlgSystemJtcookieinfo extends JPlugin
 	/**
 	 * getTmpl
 	 *
-	 * @param   string $theme Name of output templatefile without type
+	 * @param    string   $theme   Name of output templatefile without type
 	 *
-	 * @return string Templateoutput from selected framework
+	 * @return   string   Templateoutput from selected framework
 	 */
 	protected function getTmpl($theme)
 	{
@@ -206,10 +206,10 @@ class PlgSystemJtcookieinfo extends JPlugin
 	/**
 	 * getTmplPath
 	 *
-	 * @param   string $filename Name of output templatefile without type
-	 * @param   string $type     Type of templatefile
+	 * @param    string   $filename   Name of output templatefile without type
+	 * @param    string   $type       Type of templatefile
 	 *
-	 * @return string Path to output templatefile
+	 * @return   string   Path to output templatefile
 	 */
 	protected function getTmplPath($filename, $type = 'php')
 	{
