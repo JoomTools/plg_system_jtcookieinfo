@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin for Joomla! 2.5 and higher
+ * Plugin for Joomla! 3.6.4 and higher
  *
  * Displays a pop-up window with information about the use of cookies.
  *
@@ -34,9 +34,17 @@ class PlgSystemJtcookieinfo extends JPlugin
 	 * onBeforeRender
 	 *
 	 * @return   void
+	 * @since    2.5
 	 */
 	public function onBeforeRender()
 	{
+		$position = '';
+		$padding = "$('body').css({'padding-top' : bodycss});";
+		$paddingnew = "
+				var bodycss = $('body').css('padding-top');
+				var newbodycss = parseInt(bodycss) + $('.jtci').height();
+				$('body').css({'padding-top' : newbodycss});
+			";
 		$app = JFactory::getApplication();
 
 		if ($app->isAdmin())
@@ -45,18 +53,28 @@ class PlgSystemJtcookieinfo extends JPlugin
 		}
 
 		$cookie   = $app->input->cookie->getBool('jtci_accept', false);
-		$position = ($this->params->get('jtci_set_position', 'top') == 'bottom') ?
-			'.css({top:"inherit",bottom:0})' : '';
+		if($this->params->get('jtci_set_position', 'top') == 'bottom')
+		{
+			$position = '.css({top:"inherit",bottom:0})';
+			$paddingnew = "
+					var bodycss = $('body').css('padding-bottom');
+					var newbodycss = parseInt(bodycss) + $('.jtci').height();
+					$('body').css({'padding-bottom' : newbodycss}).delay(800).show('slow');
+				";
+			$padding = "$('body').css({'padding-bottom' : bodycss});";
+		}
 
 		$script = '
 			jQuery(function ($) {
 				$(".jtci").hide();
 				if ($.cookie("jtci_accept") == undefined) {
 					$(".jtci")' . $position . '.delay(800).show("slow");
+					' . $paddingnew . '
 				}
-				$(".jtci-close").on("click", function () {
+				$(".jtci .close").on("click", function () {
 					$.cookie("jtci_accept", true, {expires: ' . (int) $this->params->get('jtci_expire', '365') . ', path: "' . JURI::root(true) . '"});
 					$(".jtci").hide("slow");
+					' . $padding . '
 				});
 			});
 		';
@@ -64,17 +82,6 @@ class PlgSystemJtcookieinfo extends JPlugin
 		if ($cookie === false)
 		{
 			$document = JFactory::getDocument();
-
-			if (version_compare(JVERSION, '3', 'lt'))
-			{
-				if (JFactory::getApplication()->get('jquery') !== true)
-				{
-					$document->addScript("//code.jquery.com/jquery-latest.min.js");
-					JFactory::getApplication()->set('jquery', true);
-				}
-
-				$script = 'jQuery.noConflict();' . $script;
-			}
 
 			$min = (JDEBUG) ? '' : '.min';
 
@@ -113,12 +120,12 @@ class PlgSystemJtcookieinfo extends JPlugin
 
 		$jtci->theme      = $this->params->get('jtci_theme', 'default');
 		$jtci->setTitle   = $this->params->get('jtci_set_title', 1);
-		$jtci->title      = $this->params->get('jtci_title', JText::_('PLG_SYSTEM_JTCOOKIEINFO_TITLE'));
-		$jtci->message    = $this->params->get('jtci_message', JText::_('PLG_SYSTEM_JTCOOKIEINFO_MESSAGE'));
-		$jtci->closeTitle = $this->params->get('jtci_close_title', JText::_('PLG_SYSTEM_JTCOOKIEINFO_CLOSE_TITLE'));
+		$jtci->title      = $this->params->get('jtci_title', JText::_('PLG_JTCI_MESSAGEBOX_TITLE'));
+		$jtci->message    = $this->params->get('jtci_message', JText::_('PLG_JTCI_MESSAGEBOX_MESSAGE'));
+		$jtci->closeTitle = $this->params->get('jtci_close_title', JText::_('PLG_JTCI_MESSAGEBOX_CLOSE_TITLE'));
 		$jtci->legalURL   = $this->params->get('jtci_legal_url', '');
-		$jtci->legalLabel = $this->params->get('jtci_legal_label', JText::_('PLG_SYSTEM_JTCOOKIEINFO_LEGAL_LABEL'));
-		$jtci->legalTitle = $this->params->get('jtci_legal_title', JText::_('PLG_SYSTEM_JTCOOKIEINFO_LEGAL_TITLE'));
+		$jtci->legalLabel = $this->params->get('jtci_legal_label', JText::_('PLG_JTCI_MESSAGEBOX_LEGAL_LABEL'));
+		$jtci->legalTitle = $this->params->get('jtci_legal_title', JText::_('PLG_JTCI_MESSAGEBOX_LEGAL_TITLE'));
 
 		if (isset($messageType[$jtci->theme][$this->params->get('jtci_message_type', 'dark')]))
 		{
@@ -135,7 +142,7 @@ class PlgSystemJtcookieinfo extends JPlugin
 
 		if ($legalItemLanguage != $activeLanguage && $legalItemLanguage != '*')
 		{
-			$db = JFactory::getDbo();
+			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true);
 
 			$query->select('a.id')
@@ -143,13 +150,13 @@ class PlgSystemJtcookieinfo extends JPlugin
 				->where('a.id != ' . $db->q($jtci->legalURL));
 
 			$query->select('k.key')
-				->join('LEFT', '#__associations AS k ON k.id = ' .  $db->q($jtci->legalURL) . ' AND a.key = k.key')
+				->join('LEFT', '#__associations AS k ON k.id = ' . $db->q($jtci->legalURL) . ' AND a.key = k.key')
 				->where('a.context="com_menus.item"');
 
 			$query->select('m.id')
-				->join('LEFT', '#__menu AS m ON m.id = a.id AND m.published=1 AND m.language = ' .  $db->q($activeLanguage));
+				->join('LEFT', '#__menu AS m ON m.id = a.id AND m.published=1 AND m.language = ' . $db->q($activeLanguage));
 
-			$legalURL = $db->setQuery($query)->loadResult();
+			$legalURL       = $db->setQuery($query)->loadResult();
 			$jtci->legalURL = $legalURL;
 		}
 
@@ -181,7 +188,7 @@ class PlgSystemJtcookieinfo extends JPlugin
 	/**
 	 * getTmpl
 	 *
-	 * @param    string   $theme   Name of output templatefile without type
+	 * @param    string $theme Name of output templatefile without type
 	 *
 	 * @return   string   Templateoutput from selected framework
 	 */
@@ -206,8 +213,8 @@ class PlgSystemJtcookieinfo extends JPlugin
 	/**
 	 * getTmplPath
 	 *
-	 * @param    string   $filename   Name of output templatefile without type
-	 * @param    string   $type       Type of templatefile
+	 * @param    string $filename Name of output templatefile without type
+	 * @param    string $type     Type of templatefile
 	 *
 	 * @return   string   Path to output templatefile
 	 */

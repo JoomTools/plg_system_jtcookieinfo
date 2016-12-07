@@ -1,95 +1,74 @@
 .jtci {
-	position : fixed;
-	top      : 0;
-	left     : 0;
-	width    : 100%;
-	z-index  : 9999;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 9999;
+	line-height: 20px;
 }
 
 .jtci > div {
-	margin        : 5px;
-	border        : 1px solid;
-	min-height    : 55px;
-	border-radius : 4px;
+	overflow: hidden;
 }
 
-.jtci.j25 > div {
-	padding    : 10px;
-	text-align : left;
+.jtci .jtci-block {
+	position: relative;
+	margin: 5px;
+	border: 1px solid;
+	border-radius: 4px;
+	padding: 10px 50px 10px 10px;
+	min-height: 22px;
 }
 
-.jtci .close {
-	border        : 1px solid;
-	border-radius : 100%;
-	opacity       : 0.6;
-	width         : 20px;
-	height        : 20px;
-	line-height   : 16px;
-	text-align    : center;
-}
-
-.jtci.j25 .close {
-	float           : right;
-	line-height     : 20px;
-	text-decoration : none;
-}
-
-.jtci .uk-close {
-	opacity : 0.6;
+.jtci .jtci-close {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	border: 1px solid;
+	border-radius: 100%;
+	width: 20px;
+	height: 20px;
+	line-height: 16px;
+	text-align: center;
+	font-size: 16px;
 }
 
 .jtci-legal {
-	float       : right;
-	margin-left : 15px;
-	font-weight : bold;
+	float: right;
+	margin-left: 15px;
+	font-weight: bold;
 }
 
 .jtci-message {
-	display : table;
-	width   : 100%;
+	float: left;
 }
 
-.jtci.j25 .jtci-heading {
-	font-size   : 1.5em;
-	font-weight : normal;
-}
-
-.jtci.j25 .alert-info,
-.jtci.j25 .alert-info .jtci-heading,
-.jtci.j25 .alert-info a {
-	background-color : #d9edf7;
-	color            : #31708f;
-}
-
-.jtci.j25 .alert-success,
-.jtci.j25 .alert-success .jtci-heading,
-.jtci.j25 .alert-success a {
-	background-color : #dff0d8;
-	color            : #3c763d;
-}
-
-.jtci.j25 .alert-warning,
-.jtci.j25 .alert-warning .jtci-heading,
-.jtci.j25 .alert-warning a {
-	background-color : #fcf8e3;
-	color            : #8a6d3b;
-}
-
-.jtci.j25 .alert-error,
-.jtci.j25 .alert-error .jtci-heading,
-.jtci.j25 .alert-error a {
-	background-color : #f2dede;
-	color            : #a94442;
-}
-
+.jtci .warning,
+.jtci .warning a,
+.jtci .error,
+.jtci .error a,
 .jtci .alert-dark,
-.jtci .alert-dark a {
-	background-color : #333;
-	color            : #f0f0f0;
+.jtci .alert-dark a,
+.jtci .uk-alert-dark,
+.jtci .uk-alert-dark a,
+.jtci .dark,
+.jtci .dark a {
+	background-color: #333;
+	color: #fff;
+	opacity: 1;
 }
 
+.jtci .info,
+.jtci .info a,
+.jtci .success,
+.jtci .success a,
 .jtci .alert-bright,
-.jtci .alert-bright a {
-	background-color : #f0f0f0;
-	color            : #333;
+.jtci .alert-bright a,
+.jtci .uk-alert-bright,
+.jtci .uk-alert-bright a,
+.jtci .bright,
+.jtci .bright a {
+	background-color: #f0f0f0;
+	color: #333;
+	opacity: 1;
 }

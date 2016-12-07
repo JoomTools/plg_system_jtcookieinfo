@@ -17,9 +17,9 @@ defined('_JEXEC') or die;
 
 $jtci = $this->jtci; ?>
 
-<div class="jtci uikit">
-	<div class="uk-alert uk-alert-large <?php echo ($jtci->messageType) ? ' uk-alert-' . $jtci->messageType : ''; ?>" data-uk-alert>
-		<a title="<?php echo $jtci->closeTitle; ?>" class="jtci-close uk-alert-close uk-close" href="#"></a>
+<div class="jtci">
+	<div class="uk-alert uk-alert-large <?php echo ($jtci->messageType != '') ? ' uk-alert-' . $jtci->messageType : ''; ?>" data-uk-alert>
+		<a title="<?php echo $jtci->closeTitle; ?>" class="uk-alert-close uk-close close" href="#"></a>
 		<?php if ($jtci->setTitle) : ?>
 			<h4 class="jtci-heading uk-h2"><?php echo $jtci->title; ?></h4>
 		<?php endif; ?>

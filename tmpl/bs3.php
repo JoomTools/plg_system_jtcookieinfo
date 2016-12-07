@@ -17,9 +17,9 @@ defined('_JEXEC') or die;
 
 $jtci = $this->jtci; ?>
 
-<div class="jtci bs3">
-	<div class="bg-<?php echo $jtci->messageType; ?>">
-		<a class="jtci-close close" title="<?php echo $jtci->closeTitle; ?>" href="#" aria-label="Close">
+<div class="jtci">
+	<div class="alert alert-<?php echo $jtci->messageType; ?> alert-dismissible" role="alert">
+		<a class="close" title="<?php echo $jtci->closeTitle; ?>" href="#" data-dismiss="alert" aria-label="Close">
 			<span aria-hidden="true">&times;</span>
 		</a>
 		<?php if ($jtci->setTitle) : ?>
