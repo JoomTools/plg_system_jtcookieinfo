@@ -135,29 +135,31 @@ class PlgSystemJtcookieinfo extends JPlugin
 		{
 			$jtci->messageType = $this->params->get('jtci_message_type', 'dark');
 		}
-
-
-		$legalItemLanguage = JFactory::getApplication()->getMenu()->getItem($jtci->legalURL)->language;
-		$activeLanguage    = JFactory::getLanguage()->getTag();
-
-		if ($legalItemLanguage != $activeLanguage && $legalItemLanguage != '*')
+		
+		if (!empty($jtci->legalURL))
 		{
-			$db    = JFactory::getDbo();
-			$query = $db->getQuery(true);
+			$legalItemLanguage = JFactory::getApplication()->getMenu()->getItem($jtci->legalURL)->language;
+			$activeLanguage    = JFactory::getLanguage()->getTag();
 
-			$query->select('a.id')
-				->from('#__associations AS a')
-				->where('a.id != ' . $db->q($jtci->legalURL));
+			if ($legalItemLanguage != $activeLanguage && $legalItemLanguage != '*')
+			{
+				$db    = JFactory::getDbo();
+				$query = $db->getQuery(true);
 
-			$query->select('k.key')
-				->join('LEFT', '#__associations AS k ON k.id = ' . $db->q($jtci->legalURL) . ' AND a.key = k.key')
-				->where('a.context="com_menus.item"');
+				$query->select('a.id')
+					->from('#__associations AS a')
+					->where('a.id != ' . $db->q($jtci->legalURL));
 
-			$query->select('m.id')
-				->join('LEFT', '#__menu AS m ON m.id = a.id AND m.published=1 AND m.language = ' . $db->q($activeLanguage));
+				$query->select('k.key')
+					->join('LEFT', '#__associations AS k ON k.id = ' . $db->q($jtci->legalURL) . ' AND a.key = k.key')
+					->where('a.context="com_menus.item"');
 
-			$legalURL       = $db->setQuery($query)->loadResult();
-			$jtci->legalURL = $legalURL;
+				$query->select('m.id')
+					->join('LEFT', '#__menu AS m ON m.id = a.id AND m.published=1 AND m.language = ' . $db->q($activeLanguage));
+
+				$legalURL       = $db->setQuery($query)->loadResult();
+				$jtci->legalURL = $legalURL;
+			}
 		}
 
 		$jtci->activeLanguage = JFactory::getLanguage()->getTag();
