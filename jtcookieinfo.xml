@@ -1,20 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.4" type="plugin" group="system" method="upgrade">
-	<name>PLG_SYSTEM_JTCOOKIEINFO</name>
+<extension version="3.6" type="plugin" group="system" method="upgrade">
+	<name>PLG_JTCI</name>
 	<author>Guido De Gobbis</author>
-	<creationDate>Nov. 2015</creationDate>
+	<creationDate>Februar 2017</creationDate>
 	<copyright>(c) JoomTools.de. All rights reserved.</copyright>
 	<license>GNU/GPLv3, see http://www.gnu.org/licenses/gpl-3.0.de.html</license>
 	<authorEmail>guido.de.gobbis@jootmools.de</authorEmail>
-	<version>1.0.6</version>
-	<description>PLG_SYSTEM_JTCOOKIEINFO_DESC</description>
+	<version>3.0.1</version>
+	<description>PLG_JTCI_DESC</description>
 
 	<files>
 		<filename plugin="jtcookieinfo">jtcookieinfo.php</filename>
 		<folder>assets</folder>
-		<folder>language</folder>
 		<folder>tmpl</folder>
 	</files>
+
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.plg_system_jtcookieinfo.sys.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_system_jtcookieinfo.ini</language>
+		<language tag="de-DE">de-DE/de-DE.plg_system_jtcookieinfo.sys.ini</language>
+		<language tag="de-DE">de-DE/de-DE.plg_system_jtcookieinfo.ini</language>
+	</languages>
 
 	<config>
 		<fields name="params">
@@ -23,10 +29,10 @@
 				       type="list"
 				       class="chzn-single"
 				       default="default"
-				       label="PLG_SYSTEM_JTCOOKIEINFO_THEME_LABEL"
-				       description="PLG_SYSTEM_JTCOOKIEINFO_THEME_DESC">
-					<option value="default">PLG_SYSTEM_JTCOOKIEINFO_THEME_OPTION_DEFAULT</option>
-					<option value="default_j25">PLG_SYSTEM_JTCOOKIEINFO_THEME_OPTION_DEFAULT_J25</option>
+				       label="PLG_JTCI_THEME_LABEL"
+				       description="PLG_JTCI_THEME_DESC">
+					<option value="default">JDEFAULT</option>
+					<option value="bs2">Bootstrap 2.3.2</option>
 					<option value="bs3">Bootstrap 3</option>
 					<option value="uikit">UIkit</option>
 				</field>
@@ -34,21 +40,21 @@
 				       type="list"
 				       class="chzn-single"
 				       default="dark"
-				       label="PLG_SYSTEM_JTCOOKIEINFO_MESSAGE_TYPE_LABEL"
-				       description="PLG_SYSTEM_JTCOOKIEINFO_MESSAGE_TYPE_DESC">
-					<option value="dark">PLG_SYSTEM_JTCOOKIEINFO_MESSAGE_TYPE_OPTION_DARK</option>
-					<option value="bright">PLG_SYSTEM_JTCOOKIEINFO_MESSAGE_TYPE_OPTION_BRIGHT</option>
-					<option value="info">PLG_SYSTEM_JTCOOKIEINFO_MESSAGE_TYPE_OPTION_INFO</option>
-					<option value="success">PLG_SYSTEM_JTCOOKIEINFO_MESSAGE_TYPE_OPTION_SUCCESS</option>
-					<option value="warning">PLG_SYSTEM_JTCOOKIEINFO_MESSAGE_TYPE_OPTION_WARNING</option>
-					<option value="error">PLG_SYSTEM_JTCOOKIEINFO_MESSAGE_TYPE_OPTION_ERROR</option>
+				       label="PLG_JTCI_MESSAGE_TYPE_LABEL"
+				       description="PLG_JTCI_MESSAGE_TYPE_DESC">
+					<option value="dark">Dark</option>
+					<option value="bright">Bright</option>
+					<option value="info">Info</option>
+					<option value="success">Success</option>
+					<option value="warning">Warning</option>
+					<option value="error">Error</option>
 				</field>
 				<field name="jtci_set_position"
 				       type="radio"
 				       class="btn-group"
 				       default="top"
-				       label="PLG_SYSTEM_JTCOOKIEINFO_SET_POSITION_LABEL"
-				       description="PLG_SYSTEM_JTCOOKIEINFO_SET_POSITION_DESC">
+				       label="PLG_JTCI_SET_POSITION_LABEL"
+				       description="PLG_JTCI_SET_POSITION_DESC">
 					<option value="top">Top</option>
 					<option value="bottom">Bottom</option>
 				</field>
@@ -56,8 +62,8 @@
 				       type="radio"
 				       class="btn-group"
 				       default="0"
-				       label="PLG_SYSTEM_JTCOOKIEINFO_SET_TITLE_LABEL"
-				       description="PLG_SYSTEM_JTCOOKIEINFO_SET_TITLE_DESC">
+				       label="PLG_JTCI_SET_TITLE_LABEL"
+				       description="PLG_JTCI_SET_TITLE_DESC">
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
@@ -65,42 +71,42 @@
 				       type="text"
 				       showon="jtci_set_title:1"
 				       default=""
-				       label="PLG_SYSTEM_JTCOOKIEINFO_TITLE_LABEL"
-				       description="PLG_SYSTEM_JTCOOKIEINFO_TITLE_DESC"/>
+				       label="PLG_JTCI_TITLE_LABEL"
+				       description="PLG_JTCI_TITLE_DESC"/>
 				<field type="spacer"
 				       name="jtcilegal"
-				       label="PLG_SYSTEM_JTCOOKIEINFO_LEGAL_SPACER"/>
+				       label="PLG_JTCI_LEGAL_SPACER"/>
 				<field name="jtci_legal_url"
 				       type="menuitem"
 				       class="chzn-color-state"
 				       published="1"
 				       default="0"
-				       label="PLG_SYSTEM_JTCOOKIEINFO_LEGAL_URL_LABEL"
-				       description="PLG_SYSTEM_JTCOOKIEINFO_LEGAL_URL_DESC">
+				       label="PLG_JTCI_LEGAL_URL_LABEL"
+				       description="PLG_JTCI_LEGAL_URL_DESC">
 					<option	value="0">JOFF</option>
 				</field>
 				<field name="jtci_legal_label"
 				       type="text"
 				       default=""
-				       label="PLG_SYSTEM_JTCOOKIEINFO_LEGAL_LABEL_LABEL"
-				       description="PLG_SYSTEM_JTCOOKIEINFO_LEGAL_LABEL_DESC"/>
+				       label="PLG_JTCI_LEGAL_LABEL_LABEL"
+				       description="PLG_JTCI_LEGAL_LABEL_DESC"/>
 				<field name="jtci_legal_title"
 				       type="text"
 				       default=""
-				       label="PLG_SYSTEM_JTCOOKIEINFO_LEGAL_TITLE_LABEL"
-				       description="PLG_SYSTEM_JTCOOKIEINFO_LEGAL_TITLE_DESC"/>
+				       label="PLG_JTCI_LEGAL_TITLE_LABEL"
+				       description="PLG_JTCI_LEGAL_TITLE_DESC"/>
 			</fieldset>
 			<fieldset name="advanced">
 				<field name="jtci_message"
 				       type="editor"
 				       buttons="false"
 				       filter="safehtml"
-				       label="PLG_SYSTEM_JTCOOKIEINFO_MESSAGE_LABEL"
-				       description="PLG_SYSTEM_JTCOOKIEINFO_MESSAGE_DESC"/>
+				       label="PLG_JTCI_MESSAGE_LABEL"
+				       description="PLG_JTCI_MESSAGE_DESC"/>
 			</fieldset>
 		</fields>
 	</config>
 	<updateservers>
-		<server type="collection" priority="1" name="JT - Updateserver">http://updateserver.joomtools.de/extensions.xml</server>
+		<server type="extension" name="JT-Cookieinfo">https://raw.githubusercontent.com/JoomTools/updateserver/master/jtcookieinfo.xml</server>
 	</updateservers>
 </extension>

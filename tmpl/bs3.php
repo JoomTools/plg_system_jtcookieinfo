@@ -17,9 +17,9 @@ defined('_JEXEC') or die;
 
 $jtci = $this->jtci; ?>
 
-<div class="jtci bs3">
-	<div class="bg-<?php echo $jtci->messageType; ?>">
-		<a class="jtci-close close" title="<?php echo $jtci->closeTitle; ?>" href="#" aria-label="Close">
+<div class="jtci">
+	<div class="alert alert-<?php echo $jtci->messageType; ?> alert-dismissible" role="alert">
+		<a class="close" title="<?php echo $jtci->closeTitle; ?>" href="#" data-dismiss="alert" aria-label="Close">
 			<span aria-hidden="true">&times;</span>
 		</a>
 		<?php if ($jtci->setTitle) : ?>
@@ -28,7 +28,7 @@ $jtci = $this->jtci; ?>
 		<div class="jtci-message text-<?php echo $jtci->messageType; ?>">
 			<?php echo $jtci->message; ?>
 			<?php if ($jtci->legalURL) : ?>
-				<a class="jtci-legal alert-link" title="<?php echo $jtci->legalTitle; ?>" href="<?php echo $jtci->legalURL; ?>">
+				<a class="jtci-legal alert-link" title="<?php echo $jtci->legalTitle; ?>" href="<?php echo JRoute::_('index.php?Itemid=' . (int) $jtci->legalURL); ?>">
 					<?php echo $jtci->legalLabel; ?>
 				</a>
 			<?php endif; ?>
