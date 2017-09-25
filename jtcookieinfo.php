@@ -38,13 +38,14 @@ class PlgSystemJtcookieinfo extends JPlugin
 	 */
 	public function onBeforeRender()
 	{
-		$position = '';
-		$padding = "$('body').css({'padding-top' : bodycss});";
+		$position   = '';
+		$padding    = "$('body').css({'padding-top' : bodycss});";
 		$paddingnew = "
 				var bodycss = $('body').css('padding-top');
 				var newbodycss = parseInt(bodycss) + $('.jtci').height();
 				$('body').css({'padding-top' : newbodycss});
 			";
+
 		$app = JFactory::getApplication();
 
 		if ($app->isAdmin())
@@ -52,16 +53,17 @@ class PlgSystemJtcookieinfo extends JPlugin
 			return;
 		}
 
-		$cookie   = $app->input->cookie->getBool('jtci_accept', false);
-		if($this->params->get('jtci_set_position', 'top') == 'bottom')
+		$cookie = $app->input->cookie->getBool('jtci_accept', false);
+
+		if ($this->params->get('jtci_set_position', 'top') == 'bottom')
 		{
-			$position = '.css({top:"inherit",bottom:0})';
+			$position   = '.css({top:"inherit",bottom:0})';
 			$paddingnew = "
 					var bodycss = $('body').css('padding-bottom');
 					var newbodycss = parseInt(bodycss) + $('.jtci').height();
 					$('body').css({'padding-bottom' : newbodycss}).delay(800).show('slow');
 				";
-			$padding = "$('body').css({'padding-bottom' : bodycss});";
+			$padding    = "$('body').css({'padding-bottom' : bodycss});";
 		}
 
 		$script = '
@@ -95,6 +97,7 @@ class PlgSystemJtcookieinfo extends JPlugin
 	 * onAfterRender
 	 *
 	 * @return   void
+	 * @since    2.5
 	 */
 	public function onAfterRender()
 	{
@@ -110,11 +113,11 @@ class PlgSystemJtcookieinfo extends JPlugin
 		$jtci        = new stdClass;
 		$messageType = array(
 			'bs3'   => array(
-				'error' => 'danger'
+				'error' => 'danger',
 			),
 			'uikit' => array(
 				'info'  => '',
-				'error' => 'danger'
+				'error' => 'danger',
 			),
 		);
 
@@ -135,7 +138,7 @@ class PlgSystemJtcookieinfo extends JPlugin
 		{
 			$jtci->messageType = $this->params->get('jtci_message_type', 'dark');
 		}
-		
+
 		if (!empty($jtci->legalURL))
 		{
 			$legalItemLanguage = JFactory::getApplication()->getMenu()->getItem($jtci->legalURL)->language;
@@ -146,12 +149,12 @@ class PlgSystemJtcookieinfo extends JPlugin
 				$db    = JFactory::getDbo();
 				$query = $db->getQuery(true);
 
-				$query->select('a.id')
+				$query->select('k.id')
 					->from('#__associations AS a')
-					->where('a.id != ' . $db->q($jtci->legalURL));
+					->where('a.id = ' . $db->q($jtci->legalURL));
 
 				$query->select('k.key')
-					->join('LEFT', '#__associations AS k ON k.id = ' . $db->q($jtci->legalURL) . ' AND a.key = k.key')
+					->join('LEFT', '#__associations AS k ON k.id != ' . $db->q($jtci->legalURL) . ' AND a.key = k.key')
 					->where('a.context="com_menus.item"');
 
 				$query->select('m.id')
@@ -190,9 +193,10 @@ class PlgSystemJtcookieinfo extends JPlugin
 	/**
 	 * getTmpl
 	 *
-	 * @param    string $theme Name of output templatefile without type
+	 * @param   string  $theme  Name of output templatefile without type
 	 *
-	 * @return   string   Templateoutput from selected framework
+	 * @return   string  Templateoutput from selected framework
+	 * @since    2.5
 	 */
 	protected function getTmpl($theme)
 	{
@@ -215,10 +219,11 @@ class PlgSystemJtcookieinfo extends JPlugin
 	/**
 	 * getTmplPath
 	 *
-	 * @param    string $filename Name of output templatefile without type
-	 * @param    string $type     Type of templatefile
+	 * @param   string  $filename  Name of output templatefile without type
+	 * @param   string  $type      Type of templatefile
 	 *
-	 * @return   string   Path to output templatefile
+	 * @return   string  Path to output templatefile
+	 * @since    2.5
 	 */
 	protected function getTmplPath($filename, $type = 'php')
 	{
