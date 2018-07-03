@@ -4,12 +4,12 @@
  *
  * Displays a pop-up window with information about the use of cookies.
  *
- * @package     Joomla.Plugin
- * @subpackage  System.jtcookieinfo
- * @author      Guido De Gobbis <guido.de.gobbis@joomtools.de>
- * @copyright   2015 JoomTools
- * @license     GNU/GPLv3 <http://www.gnu.org/licenses/gpl-3.0.de.html>
- * @link        http://joomtools.de
+ * @package      Joomla.Plugin
+ * @subpackage   System.jtcookieinfo
+ * @author       Guido De Gobbis <guido.de.gobbis@joomtools.de>
+ * @copyright    2015 JoomTools
+ * @license      GNU/GPLv3 <http://www.gnu.org/licenses/gpl-3.0.de.html>
+ * @link         http://joomtools.de
  */
 
 // No direct access
@@ -29,6 +29,20 @@ jimport('joomla.plugin.plugin');
 class PlgSystemJtcookieinfo extends JPlugin
 {
 	protected $jtci;
+	/**
+	 * Affects constructor behavior. If true, language files will be loaded automatically.
+	 *
+	 * @var     boolean
+	 * @since   3.0.0
+	 */
+	protected $autoloadLanguage = true;
+	/**
+	 * Global application object
+	 *
+	 * @var     JApplication
+	 * @since   3.0.0
+	 */
+	protected $app = null;
 
 	/**
 	 * onBeforeRender
@@ -38,30 +52,30 @@ class PlgSystemJtcookieinfo extends JPlugin
 	 */
 	public function onBeforeRender()
 	{
-		$position = '';
-		$padding = "$('body').css({'padding-top' : bodycss});";
+		$position   = '';
+		$padding    = "$('body').css({'padding-top' : bodycss});";
 		$paddingnew = "
 				var bodycss = $('body').css('padding-top');
 				var newbodycss = parseInt(bodycss) + $('.jtci').height();
 				$('body').css({'padding-top' : newbodycss});
 			";
-		$app = JFactory::getApplication();
 
-		if ($app->isAdmin())
+		if ($this->app->isAdmin())
 		{
 			return;
 		}
 
-		$cookie   = $app->input->cookie->getBool('jtci_accept', false);
-		if($this->params->get('jtci_set_position', 'top') == 'bottom')
+		$cookie = $this->app->input->cookie->getBool('jtci_accept', false);
+
+		if ($this->params->get('jtci_set_position', 'top') == 'bottom')
 		{
-			$position = '.css({top:"inherit",bottom:0})';
+			$position   = '.css({top:"inherit",bottom:0})';
 			$paddingnew = "
 					var bodycss = $('body').css('padding-bottom');
 					var newbodycss = parseInt(bodycss) + $('.jtci').height();
 					$('body').css({'padding-bottom' : newbodycss}).delay(800).show('slow');
 				";
-			$padding = "$('body').css({'padding-bottom' : bodycss});";
+			$padding    = "$('body').css({'padding-bottom' : bodycss});";
 		}
 
 		$script = '
@@ -71,10 +85,12 @@ class PlgSystemJtcookieinfo extends JPlugin
 					$(".jtci")' . $position . '.delay(800).show("slow");
 					' . $paddingnew . '
 				}
-				$(".jtci .close").on("click", function () {
-					$.cookie("jtci_accept", true, {expires: ' . (int) $this->params->get('jtci_expire', '365') . ', path: "' . JURI::root(true) . '"});
-					$(".jtci").hide("slow");
-					' . $padding . '
+				$(".jtci [data-dismiss=\'alert\']").each( function(){
+					$(this).on("click", function () {
+						$.cookie("jtci_accept", true, {expires: ' . (int) $this->params->get('jtci_expire', '365') . ', path: "' . JURI::root(true) . '"});
+						$(".jtci").hide("slow");
+						' . $padding . '
+					});
 				});
 			});
 		';
@@ -82,8 +98,7 @@ class PlgSystemJtcookieinfo extends JPlugin
 		if ($cookie === false)
 		{
 			$document = JFactory::getDocument();
-
-			$min = (JDEBUG) ? '' : '.min';
+			$min      = (JDEBUG) ? '' : '.min';
 
 			JHtml::_('script', 'plugins/system/jtcookieinfo/assets/jquery.cookie' . $min . '.js');
 			JHtml::_('stylesheet', 'plugins/system/jtcookieinfo/assets/jtcookieinfo' . $min . '.css');
@@ -95,12 +110,11 @@ class PlgSystemJtcookieinfo extends JPlugin
 	 * onAfterRender
 	 *
 	 * @return   void
+	 * @since    2.5
 	 */
 	public function onAfterRender()
 	{
-		$app = JFactory::getApplication();
-
-		if ($app->isAdmin())
+		if ($this->app->isAdmin())
 		{
 			return;
 		}
@@ -110,11 +124,11 @@ class PlgSystemJtcookieinfo extends JPlugin
 		$jtci        = new stdClass;
 		$messageType = array(
 			'bs3'   => array(
-				'error' => 'danger'
+				'error' => 'danger',
 			),
 			'uikit' => array(
 				'info'  => '',
-				'error' => 'danger'
+				'error' => 'danger',
 			),
 		);
 
@@ -135,10 +149,10 @@ class PlgSystemJtcookieinfo extends JPlugin
 		{
 			$jtci->messageType = $this->params->get('jtci_message_type', 'dark');
 		}
-		
+
 		if (!empty($jtci->legalURL))
 		{
-			$legalItemLanguage = JFactory::getApplication()->getMenu()->getItem($jtci->legalURL)->language;
+			$legalItemLanguage = $this->app->getMenu()->getItem($jtci->legalURL)->language;
 			$activeLanguage    = JFactory::getLanguage()->getTag();
 
 			if ($legalItemLanguage != $activeLanguage && $legalItemLanguage != '*')
@@ -146,12 +160,12 @@ class PlgSystemJtcookieinfo extends JPlugin
 				$db    = JFactory::getDbo();
 				$query = $db->getQuery(true);
 
-				$query->select('a.id')
+				$query->select('k.id')
 					->from('#__associations AS a')
-					->where('a.id != ' . $db->q($jtci->legalURL));
+					->where('a.id = ' . $db->q($jtci->legalURL));
 
 				$query->select('k.key')
-					->join('LEFT', '#__associations AS k ON k.id = ' . $db->q($jtci->legalURL) . ' AND a.key = k.key')
+					->join('LEFT', '#__associations AS k ON k.id != ' . $db->q($jtci->legalURL) . ' AND a.key = k.key')
 					->where('a.context="com_menus.item"');
 
 				$query->select('m.id')
@@ -168,7 +182,7 @@ class PlgSystemJtcookieinfo extends JPlugin
 
 		$strOutputHTML = $this->getTmpl($jtci->theme);
 
-		$cookie = $app->input->cookie->get('jtci_accept', false, 'boolean');
+		$cookie = $this->app->input->cookie->get('jtci_accept', false, 'boolean');
 
 		if ($cookie === false)
 		{
@@ -180,9 +194,9 @@ class PlgSystemJtcookieinfo extends JPlugin
 			}
 			else
 			{
-				$body = $app->getBody();
+				$body = $this->app->getBody();
 				$body = str_replace('</body>', $strOutputHTML . '</body>', $body);
-				$app->setBody($body);
+				$this->app->setBody($body);
 			}
 		}
 	}
@@ -190,9 +204,10 @@ class PlgSystemJtcookieinfo extends JPlugin
 	/**
 	 * getTmpl
 	 *
-	 * @param    string $theme Name of output templatefile without type
+	 * @param   string  $theme  Name of output templatefile without type
 	 *
-	 * @return   string   Templateoutput from selected framework
+	 * @return   string  Templateoutput from selected framework
+	 * @since    2.5
 	 */
 	protected function getTmpl($theme)
 	{
@@ -215,14 +230,15 @@ class PlgSystemJtcookieinfo extends JPlugin
 	/**
 	 * getTmplPath
 	 *
-	 * @param    string $filename Name of output templatefile without type
-	 * @param    string $type     Type of templatefile
+	 * @param   string  $filename  Name of output templatefile without type
+	 * @param   string  $type      Type of templatefile
 	 *
-	 * @return   string   Path to output templatefile
+	 * @return   string  Path to output templatefile
+	 * @since    2.5
 	 */
 	protected function getTmplPath($filename, $type = 'php')
 	{
-		$template = JFactory::getApplication()->getTemplate();
+		$template = $this->app->getTemplate();
 
 		// Build the template and base path for the layout
 		$tAbsPath = JPATH_THEMES . '/' . $template . '/html/plg_' . $this->_type . '_' . $this->_name . '/' . $filename . '.' . $type;
