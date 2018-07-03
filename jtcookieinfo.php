@@ -81,13 +81,13 @@ class PlgSystemJtcookieinfo extends JPlugin
 		$script = '
 			jQuery(function ($) {
 				$(".jtci").hide();
-				if ($.cookie("jtci_accept") == undefined) {
+				if (Cookies.get("jtci_accept") == undefined) {
 					$(".jtci")' . $position . '.delay(800).show("slow");
 					' . $paddingnew . '
 				}
 				$(".jtci [data-dismiss=\'alert\']").each( function(){
 					$(this).on("click", function () {
-						$.cookie("jtci_accept", true, {expires: ' . (int) $this->params->get('jtci_expire', '365') . ', path: "' . JURI::root(true) . '"});
+						Cookies.set("jtci_accept", true, {expires: ' . (int) $this->params->get('jtci_expire', '365') . ', path: "' . JURI::root(true) . '"});
 						$(".jtci").hide("slow");
 						' . $padding . '
 					});
