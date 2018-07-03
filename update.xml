@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<updates>
+	<update>
+		<name>JT - CookieInfo</name>
+		<description></description>
+		<element>jtf</element>
+		<type>plugin</type>
+		<folder>system</folder>
+		<client>site</client>
+		<version>3.0.3</version>
+		<downloads>
+			<downloadurl type="full" format="zip">https://github.com/JoomTools/plg_system_jtcookieinfo/releases/download/3.0.3/plg_system_jtcookieinfo-3.0.3.zip</downloadurl>
+		</downloads>
+		<maintainer>Guido De Gobbis</maintainer>
+		<targetplatform name="joomla" version="3.[89]"/>
+	</update>
+</updates>
