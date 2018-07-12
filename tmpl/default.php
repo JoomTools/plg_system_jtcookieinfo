@@ -19,7 +19,7 @@ $jtci = $this->jtci; ?>
 
 <div class="jtci">
 	<div class="jtci-block <?php echo $jtci->messageType; ?>">
-		<a class="jtci-close close" title="<?php echo $jtci->closeTitle; ?>" href="#" data-dismiss="jtci-block">&times;</a>
+		<a class="jtci-close close" title="<?php echo $jtci->closeTitle; ?>" href="#" data-dismiss="alert">&times;</a>
 		<?php if ($jtci->setTitle) : ?>
 			<h4 class="jtci-heading"><?php echo $jtci->title; ?></h4>
 		<?php endif; ?>
